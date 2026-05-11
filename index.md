@@ -11,6 +11,7 @@ title: Home
     <p>
       I work on optimal transport theory, neural network optimization, machine learning, and hashing methods.
     </p>
+
   </div>
 
   <img src="{{ '/assets/imgs/profile.png' | relative_url }}" alt="Binshuai Wang">
@@ -56,7 +57,7 @@ title: Home
 
 <section id="contact">
   <h2>Contact</h2>
-  <p>Email: <a href="mailto:binshuaiw@gmail.com">binshuaiw@gmail.com</a></p>
+  <p>Email: <a href="mailto:derekwang@gwu.com">binshuaiw@gmail.com</a></p>
   <p>GitHub: <a href="https://github.com/drkwang">DRKWang</a></p>
   <p>LinkedIn: <a href="https://www.linkedin.com/in/binshuai-wang-0855151a3/">Binshuai Wang</a></p>
 </section>
