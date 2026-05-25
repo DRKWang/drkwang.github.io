@@ -16,10 +16,11 @@
   abbr={TMLR},
   title={Relative Translation Invariant Wasserstein Distance},
   author={Wang, Binshuai and Di, Qiwei and Yin, Ming and Wang, Mengdi and Gu, Quanquan and Wei, Peng},
-  journal={Transactions on Machine Learning Research (TMLR)},
+  journal={Transactions on Machine Learning Research},
   year={2026},
+  issn={2835-8856},
   abstract={Motivated by the Bures distance, we introduce a new family of distances, \emph{relative translation invariant Wasserstein distances}, denoted by $RW_p$, as an extension of the classical Wasserstein distances $W_p$ for $p \in [1, +\infty)$. We establish that $RW_p$ defines a valid metric and demonstrate that this type of metric is more intrinsic than the classical Wasserstein distance. A bi-level algorithm is designed to compute the general $RW_p$ distance between arbitrary discrete distributions. Moreover, when $p = 2$, we show that the optimal coupling matrix is invariant under distributional translation in the discrete setting, and we further propose two algorithms, the $\mathrm{RW}_2$-LP algorithm and $\mathrm{RW}_2$-Sinkhorn algorithm, to improve the numerical stability of computing $W_2$ distance and the optimal coupling matrix solutions. Finally, we conduct three experiments to validate our theoretical results and algorithms. The first two experiments report that the $\mathrm{RW}_2$-LP algorithm and $\mathrm{RW}_2$-Sinkhorn algorithm, both with and without normalization, can significantly reduce the numerical errors compared to standard algorithms. The third experiment shows that $RW_p$ algorithms are computationally scalable and applicable to the retrieval of similar thunderstorm patterns in practical applications.},
-  pdf={TMLR_RWp_metric_final.pdf},
+  pdf={Wang26rwp.pdf},
   code={https://github.com/DRKWang/rw_metric},
   selected={true}
 }
@@ -33,7 +34,7 @@
   year={2025},
   location={Montreal, Canada},
   publisher={IEEE},
-  abstract={Proposes an optimal transport-based framework for evaluating the performance of aircraft computer vision models under distributional mismatch conditions.},
+  abstract={Ensuring the reliable deployment of deep learning models in real-world environments remains a fundamental challenge, particularly in safety-critical applications such as autonomous unmanned aerial system (UAS) landings. This paper investigates the relationship between model performance and distributional mismatch between training data and operational design domain (ODD) samples. We propose a framework that quantifies this mismatch using Wasserstein distances derived from optimal transport theory, applied to both raw image data and semantic embeddings from a pretrained CLIP (ViT-B/32) model. To address the scarcity of real ODD data collected by flight tests, we additionally leverage diffusion models to generate additional ODD scenarios, and evaluate their quality using Fréchet Inception Distance (FID) score. Experimental results demonstrate a strong correlation between the magnitude of distributional mismatch and model performance degradation. Moreover, our results demonstrate that models trained on datasets with lower distributional mismatch to the ODD domain, such as VisDrone, compared to COCO, achieve superior detection performance. These findings highlight the effectiveness of our framework as a practical and generalizable tool for estimating model reliability in complex real-world deployment scenarios, when trained on different training datasets.},
   note={Best Paper of Session Award},
   pdf={Wang25OT_mismatch.pdf},
   selected={true},
@@ -49,7 +50,7 @@
   year={2025},
   location={Las Vegas, NV},
   publisher={AIAA},
-  abstract={Introduces a ViT-based model integrated with optimal transport for analyzing thunderstorm patterns in aviation operations.},
+  abstract={Thunderstorms pose significant challenges to aviation safety and operational efficiency, requiring advanced tools for accurate analysis and prediction. This research explores a novel framework integrating Vision Transformers (ViTs) and Optimal Transport (OT) theory to analyze unlabelled thunderstorm datasets. ViTs, trained in an unsupervised manner, extract high-dimensional feature embeddings by capturing spatial and temporal relationships within and across storm images. These embeddings are further encoded into probability distributions to represent thunderstorm patterns. By leveraging OT and the Wasserstein distance, similarities between storms are quantified, enabling clustering and comparative analysis of thunderstorm characteristics. Preliminary results demonstrate the ability of ViTs to identify meaningful relationships between storm regions and of OT to effectively cluster storms based on their structural and intensity features. Expected outcomes include enhanced storm pattern recognition, robust clustering, and actionable insights for aviation safety, such as improved routing and operational planning. This work contributes a data-driven, interpretable framework for understanding thunderstorm behavior, with implications for aviation meteorology applications.},
   pdf={Wang25ViT.pdf},
   selected={false}
 }
