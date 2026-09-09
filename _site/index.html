@@ -6,9 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Binshuai Wang">
   <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Enable LaTeX math rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js">
+  </script>
 </head>
 
-<!-- <script src="assets/js/publications.js"></script> -->
 <body>
   <div class="page">
     <aside class="sidebar">
@@ -16,12 +33,9 @@
       <nav>
         <a href="/">Home</a>
         <a href="/publications/">Publications</a>
-        <!-- <a href="/#research">Research</a> -->
-        <!-- <a href="/blog/">Blog</a> -->
+        <a href="/blog/">Blog</a>
         <a href="/cv/">CV</a>
-        <!-- <a href="/assets/cv/resume_derekwang.pdf" target="_blank">CV</a> -->
         <a href="/#contact">Contact</a>
-        <!-- <a href="/#miscellaneous">Miscellaneous</a> -->
       </nav>
     </aside>
 
@@ -39,7 +53,7 @@
       I am a Ph.D. candidate in Computer Science at The George Washington University.
       I obtained M.S. in Computer Science from UC Davis and B.S. in Mathematics
       from the Hua Loo-Keng Honors Class at Beihang University.
-      My research lies at the intersection of mathematics, optimization, and computer science, with a focus on optimal transport theory, neural network optimization, machine learning, and hashing methods.
+      My research lies at the intersection of mathematics, optimization, and computer science, with a focus on optimal transport theory, machine learning, neural network optimization.
 
     </p>
 
@@ -89,12 +103,11 @@
   <p>LinkedIn: <a href="https://www.linkedin.com/in/binshuai-wang-0855151a3/">Binshuai Wang</a></p>
 </section>
 
-
-
     </main>
   </div>
-      <footer class="footer">
-        <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
-      </footer>
+
+  <footer class="footer">
+    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
+  </footer>
 </body>
 </html>

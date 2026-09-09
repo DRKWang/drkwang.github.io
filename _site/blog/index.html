@@ -6,9 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Binshuai Wang">
   <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Enable LaTeX math rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js">
+  </script>
 </head>
 
-<!-- <script src="assets/js/publications.js"></script> -->
 <body>
   <div class="page">
     <aside class="sidebar">
@@ -16,29 +33,29 @@
       <nav>
         <a href="/">Home</a>
         <a href="/publications/">Publications</a>
-        <!-- <a href="/#research">Research</a> -->
-        <!-- <a href="/blog/">Blog</a> -->
+        <a href="/blog/">Blog</a>
         <a href="/cv/">CV</a>
-        <!-- <a href="/assets/cv/resume_derekwang.pdf" target="_blank">CV</a> -->
         <a href="/#contact">Contact</a>
-        <!-- <a href="/#miscellaneous">Miscellaneous</a> -->
       </nav>
     </aside>
 
     <main class="content">
-      <h1 id="curriculum-vitae">Curriculum Vitae</h1>
+      <h1 id="blog">Blog</h1>
 
-<p>You can download my CV here: <a href="/cv.pdf">Download PDF</a></p>
+<h2 id="optimal-transport-theory-an-introduction-to-the-classical-foundations">Optimal Transport Theory: An Introduction to the Classical Foundations</h2>
 
-<h2 id="education">Education</h2>
+<p>September 9, 2026</p>
 
+<p>A simple introduction to optimal transport, covering its history, classical formulations, and Wasserstein distances.</p>
 
+<p><a href="/2026/09/09/ot_basic.html">Read more →</a></p>
 
 
     </main>
   </div>
-      <footer class="footer">
-        <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
-      </footer>
+
+  <footer class="footer">
+    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
+  </footer>
 </body>
 </html>

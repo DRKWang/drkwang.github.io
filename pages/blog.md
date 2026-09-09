@@ -4,9 +4,19 @@ title: Blog
 permalink: /blog/
 ---
 
-# Curriculum Vitae
+# Blog
 
-You can download my CV here: [Download PDF]({{ '/cv.pdf' | relative_url }})
+{% for post in site.posts %}
 
-## Education
+[comment]: <> (## [{{ post.title }}]&#40;{{ post.url | relative_url }}&#41;)
+## {{ post.title }}
 
+{{ post.date | date: "%B %-d, %Y" }}
+
+{{ post.description }}
+
+[Read more →]({{ post.url | relative_url }})
+
+{% else %}
+No published posts were found.
+{% endfor %}

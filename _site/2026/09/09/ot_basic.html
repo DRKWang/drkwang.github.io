@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Optimal Transport Theory: An Introduction to the Classical Foundations | Binshuai Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Binshuai Wang">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Enable LaTeX math rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js">
+  </script>
+</head>
+
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <h2> </h2>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/publications/">Publications</a>
+        <a href="/blog/">Blog</a>
+        <a href="/cv/">CV</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1 id="optimal-transport-theory-an-introduction-to-the-classical-foundations">Optimal Transport Theory: An Introduction to the Classical Foundations</h1>
+
+<p>Optimal transport (OT) is an interesting branch of mathematics that connects probability theory, optimization, partial differential equations, and machine learning. 
+It provides a framework for studying how to transport one distribution of mass to another at the minimum transport cost.</p>
+
+<p>A simple example is that imagine two piles of sand with the same total volume but different shapes. How should we move the sand to turn one pile into the other while minimizing the total effort? This simple question captures the central idea of optimal transport.</p>
+
+<p>Although OT originated as a practical transportation problem, it also offers a geometric way to compare probability distributions: their difference is measured by the cost of moving probability mass between them.</p>
+
+<h2 id="a-brief-history">A Brief History</h2>
+
+<p>The classical optimal transport problem dates back to 1781. French mathematician Gaspard Monge first studied how to move material from one configuration to another while minimizing transportation cost.</p>
+
+<p>In the 1940s, Soviet mathematician Leonid Kantorovich introduced a more flexible formulation that allows mass from a single source to be divided among multiple destinations. This reformulation connects optimal transport to linear programming and provides the foundation for many modern computational methods.
+We will cover both formulations in the following section.</p>
+
+<h2 id="classical-formulations">Classical Formulations</h2>
+
+<p>Let $\mu$ and $\nu$ be two probability distributions on $\mathbb{R}^d$, representing the source and target. Let $c(x,y)$ denote the cost of moving one unit of mass from location $x$ to location $y$.</p>
+
+<p>A common choice is</p>
+
+\[c(x,y)=\|x-y\|^p,\]
+
+<p>where $\|\cdot\|$ denotes the Euclidean norm and $p\geq 1$.</p>
+<h3 id="monges-formulation-a-transport-map">Monge’s Formulation: A Transport Map</h3>
+
+<p>Monge’s formulation seeks a <strong>transport map</strong> $T$ that sends each source location $x$ to a target location $T(x)$ while minimizing the total cost:</p>
+
+\[\inf_{T:\,T_{\#}\mu=\nu}
+\int c(x,T(x))\,d\mu(x).\]
+
+<p>The condition $T_{\#}\mu=\nu$ means that moving the source mass according to pushforward $T$ produces exactly the target distribution.</p>
+
+<p>A transport map sends all mass at a given source location to a single destination. This restriction can make the problem difficult or even <em>infeasible</em>. For example, a single point mass cannot be transformed into two separate point masses by a transport map.</p>
+
+<h3 id="kantorovichs-formulation-a-transport-plan">Kantorovich’s Formulation: A Transport Plan</h3>
+
+<p>Kantorovich replaces the transport map with a <strong>transport plan</strong> $\gamma$, which allows mass at a source location to be <em>split</em> among multiple destinations:</p>
+
+\[\inf_{\gamma\in\Gamma(\mu,\nu)}
+\int c(x,y)\,d\gamma(x,y).\]
+
+<p>Here, $\Gamma(\mu,\nu)$ is the set of joint probability distributions with marginals $\mu$ and $\nu$. These marginal constraints ensure that the plan transports exactly the available source mass and delivers exactly the required target mass.</p>
+
+<h3 id="the-discrete-case">The Discrete Case</h3>
+
+<p>For discrete distributions,</p>
+
+\[\mu=\sum_{i=1}^{n}a_i\delta_{x_i},
+\qquad
+\nu=\sum_{j=1}^{m}b_j\delta_{y_j},\]
+
+<p>the weights satisfy</p>
+
+\[a_i\geq 0,
+\qquad
+b_j\geq 0,
+\qquad
+\sum_{i=1}^{n}a_i=\sum_{j=1}^{m}b_j=1.\]
+
+<p>Here, $\delta_x$ denotes a unit point mass at $x$. For an empirical distribution constructed from $n$ equally weighted observations, each weight is $a_i=1/n$.</p>
+
+<p>The Kantorovich problem becomes</p>
+
+\[\min_{\pi_{ij}\geq 0}
+\sum_{i=1}^{n}\sum_{j=1}^{m}
+\pi_{ij}c(x_i,y_j),\]
+
+<p>subject to</p>
+
+\[\sum_{j=1}^{m}\pi_{ij}=a_i
+\quad\text{for each }i,
+\qquad
+\sum_{i=1}^{n}\pi_{ij}=b_j
+\quad\text{for each }j.\]
+
+<p>The entry $\pi_{ij}$ specifies how much mass moves from $x_i$ to $y_j$. The row sums preserve the source weights, and the column sums match the target weights.</p>
+
+<p>Because both the objective and the constraints are linear in $\pi$, this is actually a <strong>linear programming problem</strong>.</p>
+
+<h2 id="wasserstein-distance">Wasserstein Distance</h2>
+
+<p>When the transportation cost is $c(x,y)=|x-y|^p$, the optimal cost defines the <strong>$p$-Wasserstein distance</strong> after taking its $p$-th root:</p>
+
+\[W_p(\mu,\nu)
+=
+\left(
+\inf_{\gamma\in\Gamma(\mu,\nu)}
+\int \|x-y\|^p\,d\gamma(x,y)
+\right)^{1/p}.\]
+
+<p>For $p\geq 1$, this is a metric on probability distributions with finite $p$-th moments. The moment condition requires</p>
+
+\[\int \|x\|^p\,d\mu(x)&lt;\infty,
+\qquad
+\int \|y\|^p\,d\nu(y)&lt;\infty.\]
+
+<p>As a metric, Wasserstein distance is nonnegative, symmetric, equals zero only when the distributions are identical, and satisfies the triangle inequality.</p>
+
+<p>Two common choices are:</p>
+
+<ul>
+  <li><strong>$W_1$:</strong> Uses transportation distance directly as the cost. It is often called the Earth Mover’s Distance.</li>
+  <li><strong>$W_2$:</strong> Uses squared transportation distance as the cost, then takes the square root of the optimal total cost. Squaring gives greater relative weight to long movements.</li>
+</ul>
+
+<p>Wasserstein distance accounts for the geometry of the underlying space. It measures how far probability mass must move, even when the distributions have no overlapping support.</p>
+
+<h3 id="a-simple-example">A Simple Example</h3>
+
+<p>Consider two distributions on the real line:</p>
+
+\[\mu=\frac{1}{2}\delta_0+\frac{1}{2}\delta_2,
+\qquad
+\nu=\frac{1}{2}\delta_1+\frac{1}{2}\delta_3.\]
+
+<p>The target distribution is the source distribution shifted one unit to the right. An optimal plan moves half the mass from $0$ to $1$ and the other half from $2$ to $3$.</p>
+
+<p>Every unit of mass moves a distance of one, so</p>
+
+\[W_1(\mu,\nu)
+=
+\frac{1}{2}\cdot 1+\frac{1}{2}\cdot 1
+=
+1,\]
+
+<p>and</p>
+
+\[W_2(\mu,\nu)
+=
+\left(
+\frac{1}{2}\cdot 1^2+\frac{1}{2}\cdot 1^2
+\right)^{1/2}
+=
+1.\]
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li>
+    <p><strong>Cédric Villani (2003).</strong> <em>Topics in Optimal Transportation</em>. Graduate Studies in Mathematics, Vol. 58. American Mathematical Society.</p>
+  </li>
+  <li>
+    <p><strong>Gabriel Peyré and Marco Cuturi (2019).</strong> <em>Computational Optimal Transport</em>. Foundations and Trends in Machine Learning, 11(5–6), 355–607.</p>
+  </li>
+</ol>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
+  </footer>
+</body>
+</html>

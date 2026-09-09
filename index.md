@@ -16,7 +16,7 @@ title: Home
       I am a Ph.D. candidate in Computer Science at The George Washington University.
       I obtained M.S. in Computer Science from UC Davis and B.S. in Mathematics
       from the Hua Loo-Keng Honors Class at Beihang University.
-      My research lies at the intersection of mathematics, optimization, and computer science, with a focus on optimal transport theory, neural network optimization, machine learning, and hashing methods.
+      My research lies at the intersection of mathematics, optimization, and computer science, with a focus on optimal transport theory, machine learning, neural network optimization.
 
     </p>
 
