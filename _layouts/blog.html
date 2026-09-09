@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Publications | Binshuai Wang</title>
+  <title>{{ page.title }} | Binshuai Wang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Binshuai Wang">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <!-- Apply saved sidebar state before render to avoid a flash of the wrong layout -->
   <script>
@@ -53,39 +53,38 @@
         </button>
       </div>
       <nav>
-        <a href="/">Home</a>
-        <a href="/publications/">Publications</a>
-        <a href="/blog/">Blog</a>
-        <a href="/cv/">CV</a>
-        <a href="/#contact">Contact</a>
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/publications/' | relative_url }}">Publications</a>
+        <a href="{{ '/blog/' | relative_url }}">Blog</a>
+        <a href="{{ '/cv/' | relative_url }}">CV</a>
+        <a href="{{ '/#contact' | relative_url }}">Contact</a>
       </nav>
     </aside>
 
     <main class="content">
-      <h1 id="publications">Publications</h1>
-
-<p>A complete list of my publications is available below.</p>
-
-<ul id="publication-list"></ul>
-
-<script>
-  window.publicationsBibPath = "/publications.bib";
-</script>
-
-<script src="/assets/js/publications.js"></script>
-
-<script>
-  loadPublications(false);
-</script>
-
-
+      {{ content }}
+      <script src="https://giscus.app/client.js"
+        data-repo="DRKWang/drkwang.github.io"
+        data-repo-id="R_kgDOSZ4bFw"
+        data-category="General"
+        data-category-id="DIC_kwDOSZ4bF84DFOds"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+    </script>
     </main>
 
   </div>
 
 
   <footer class="footer">
-    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio. Assisted by GPT and Claude.</p>
+    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
   </footer>
 
   <script>
