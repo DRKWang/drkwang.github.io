@@ -200,7 +200,7 @@ It contains two components:
 $$
 \underbrace{\|\bar{\mu}-\bar{\nu}\|_2^2}_{\text{translation}}
 +
-\underbrace{RW_2^2([\mu],[\nu])}_{\text{intrinsic distributional difference}}.
+\underbrace{RW_2^2([\mu],[\nu])}_{\text{intrinsic difference}}.
 $$
 
 In other words,
