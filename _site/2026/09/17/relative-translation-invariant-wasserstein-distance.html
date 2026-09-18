@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Relative Translation Invariant Wasserstein Distance  | Binshuai Wang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Binshuai Wang">
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+  <!-- Apply saved sidebar state before render to avoid a flash of the wrong layout -->
+  <script>
+    try {
+      if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        document.documentElement.classList.add('sidebar-collapsed');
+      }
+    } catch (e) {}
+  </script>
+
+  <!-- Enable LaTeX math rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script
+    defer
+    src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js">
+  </script>
+</head>
+
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="true">
+          <svg viewBox="0 0 24 24" width="21" height="21" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"></rect>
+            <line x1="8.5" y1="3" x2="8.5" y2="21" stroke="currentColor" stroke-width="1.6"></line>
+            <circle cx="5.7" cy="7" r="1" fill="currentColor"></circle>
+            <circle cx="5.7" cy="12" r="1" fill="currentColor"></circle>
+            <circle cx="5.7" cy="17" r="1" fill="currentColor"></circle>
+            <line x1="11" y1="8" x2="18.5" y2="8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></line>
+            <line x1="11" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></line>
+            <line x1="11" y1="16" x2="16.5" y2="16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></line>
+          </svg>
+        </button>
+      </div>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/publications/">Publications</a>
+        <a href="/blog/">Blog</a>
+        <a href="/cv/">CV</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h1 id="relative-translation-invariant-wasserstein-distance">Relative Translation Invariant Wasserstein Distance</h1>
+
+<p>Optimal transport provides a geometric way to compare probability distributions. Derived from this theory, the most widely used tools is the Wasserstein distance, which measures the minimum cost required to transport one distribution into another in the space of probability distributions.</p>
+
+<p>One limitation of the Wasserstein distance is its sensitivity to location: two distributions can have the same shape but still be far apart if one is translated in space. In this blog, we introduce the \textbf{Relative Translation Invariant Wasserstein distance}, denoted by $RW_p$, which addresses this limitation by comparing distributions up to translation.</p>
+
+<p>The main idea is simple:</p>
+
+<p>Align the two distributions through translation before measuring their intrinsic difference, rather than comparing them directly in the original coordinate system.</p>
+
+<h2 id="relative-translation-optimal-transport">Relative Translation Optimal Transport</h2>
+
+<p>Let $\mu$ and $\nu$ be two probability distributions in $\mathbb{R}^d$. We define the Relative Translation Optimal Transport (ROT) problem as</p>
+
+\[\inf_{t\in\mathbb{R}^d}
+\operatorname{OT}(\mu+t,\nu,p).\]
+
+<p>Equivalently,</p>
+
+\[\inf_{t\in\mathbb{R}^d}
+W_p(\mu+t,\nu).\]
+
+<p>Here, instead of comparing distributions in a fixed coordinate system, $RW_p$ searches for the translation that minimizes the transport cost.</p>
+
+<p>A natural quotient-space interpretation is that: all translations of the same distribution belong to one equivalence class,</p>
+
+\[[\mu]={\mu+t\in\mathbb{R}^d},\]
+
+<p>and $RW_p$ defines a true metric on</p>
+
+\[\mathcal{P}_p(\mathbb{R}^d)/{\sim_T}.\]
+
+<p>So $RW_p$ measures the difference between distributions modulo translation.</p>
+
+<h2 id="the-special-case-p2">The Special Case $p=2$</h2>
+
+<p>The quadratic case has a particularly simple structure:</p>
+
+\[W_2^2(\mu,\nu) = 
+||\bar{\mu}-\bar{\nu}||_2^2
++
+RW_2^2([\mu],[\nu])\]
+
+<p>where $\bar{\mu}$ and $\bar{\nu}$ are the means of the two distributions.</p>
+
+<p>This decomposition separates the Wasserstein distance into</p>
+
+\[\underbrace{|\bar{\mu}-\bar{\nu}|_2^2}_{\text{translation}}
++
+\underbrace{RW_2^2([\mu],[\nu])}_{\text{intrinsic distributional difference}}.\]
+
+<p>The optimal translation is simply</p>
+
+\[t^\star=\bar{\nu}-\bar{\mu}.\]
+
+<p>For Gaussian distributions, this centered component reduces to the <em>Bures</em> distance between covariance matrices, so $RW_2$ extends this geometric viewpoint beyond Gaussian distributions.</p>
+
+<h2 id="translation-invariant-optimal-coupling">Translation-Invariant Optimal Coupling</h2>
+
+<p>In the discrete quadratic case, the optimal coupling matrix is invariant under relative translation. 
+Translating the distributions changes the numerical values of the cost matrix, but does not change the optimal transport plan.</p>
+
+<p>As a result, we can first align the means,</p>
+
+\[t^\star=\bar{\nu}-\bar{\mu},\]
+
+<p>and then solve the transport problem using a better-conditioned cost matrix.</p>
+
+<h2 id="takeaway">Takeaway</h2>
+
+<p>The main idea behind $RW_p$ can be summarized as:</p>
+
+<p>Separate where a distribution is from what the distribution looks like.</p>
+
+<p>For $p=2$,</p>
+
+\[||\bar{\mu}-\bar{\nu}||_2^2
++
+RW_2^2([\mu],[\nu])\]
+
+<p>cleanly separates translation from intrinsic distributional geometry.</p>
+
+<h2 id="paper-and-code">Paper and Code</h2>
+
+<p>Paper:
+Relative Translation Invariant Wasserstein Distance
+Binshuai Wang, Qiwei Di, Ming Yin, Mengdi Wang, Quanquan Gu, and Peng Wei.
+Transactions on Machine Learning Research (TMLR), 2026.</p>
+
+<p>Code:
+https://github.com/DRKWang/rw_metric</p>
+
+      <script src="https://giscus.app/client.js"
+        data-repo="DRKWang/drkwang.github.io"
+        data-repo-id="R_kgDOSZ4bFw"
+        data-category="General"
+        data-category-id="DIC_kwDOSZ4bF84DFOds"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+    </script>
+    </main>
+
+  </div>
+
+
+  <footer class="footer">
+    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
+  </footer>
+
+  <script>
+    (function () {
+      var toggle = document.getElementById('sidebar-toggle');
+      if (!toggle) return;
+      var root = document.documentElement;
+
+      function isCollapsed() {
+        return root.classList.contains('sidebar-collapsed');
+      }
+
+      toggle.setAttribute('aria-expanded', String(!isCollapsed()));
+
+      toggle.addEventListener('click', function () {
+        var collapsed = !isCollapsed();
+        root.classList.toggle('sidebar-collapsed', collapsed);
+        toggle.setAttribute('aria-expanded', String(!collapsed));
+        try {
+          localStorage.setItem('sidebarCollapsed', collapsed);
+        } catch (e) {}
+      });
+    })();
+  </script>
+</body>
+</html>
