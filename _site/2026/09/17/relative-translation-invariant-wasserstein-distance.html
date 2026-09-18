@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Relative Translation Invariant Wasserstein Distance  | Binshuai Wang</title>
+  <title>Relative Translation Invariant Wasserstein Distance | Binshuai Wang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Binshuai Wang">
   <link rel="stylesheet" href="/assets/css/style.css">
@@ -41,14 +41,9 @@
       <div class="sidebar-head">
         <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="true">
           <svg viewBox="0 0 24 24" width="21" height="21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.6"></rect>
-            <line x1="8.5" y1="3" x2="8.5" y2="21" stroke="currentColor" stroke-width="1.6"></line>
-            <circle cx="5.7" cy="7" r="1" fill="currentColor"></circle>
-            <circle cx="5.7" cy="12" r="1" fill="currentColor"></circle>
-            <circle cx="5.7" cy="17" r="1" fill="currentColor"></circle>
-            <line x1="11" y1="8" x2="18.5" y2="8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></line>
-            <line x1="11" y1="12" x2="18.5" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></line>
-            <line x1="11" y1="16" x2="16.5" y2="16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></line>
+            <rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.6"></rect>
+            <line x1="15" y1="4" x2="15" y2="20" stroke="currentColor" stroke-width="1.6"></line>
+            <polygon class="toggle-arrow" points="7.5,9 7.5,15 10,12" fill="currentColor"></polygon>
           </svg>
         </button>
       </div>
@@ -64,118 +59,527 @@
     <main class="content">
       <h1 id="relative-translation-invariant-wasserstein-distance">Relative Translation Invariant Wasserstein Distance</h1>
 
-<p>Optimal transport provides a geometric way to compare probability distributions. Derived from this theory, the most widely used tools is the Wasserstein distance, which measures the minimum cost required to transport one distribution into another in the space of probability distributions.</p>
+<p>Optimal transport provides a powerful geometric way to compare probability distributions.</p>
 
-<p>One limitation of the Wasserstein distance is its sensitivity to location: two distributions can have the same shape but still be far apart if one is translated in space. In this blog, we introduce the \textbf{Relative Translation Invariant Wasserstein distance}, denoted by $RW_p$, which addresses this limitation by comparing distributions up to translation.</p>
+<p>Among the most widely used tools in optimal transport is the <strong>Wasserstein distance</strong>, which measures the minimum cost required to transport one probability distribution into another. It has become increasingly important in machine learning, with applications ranging from generative modeling and domain adaptation to distributionally robust optimization.</p>
 
-<p>The main idea is simple:</p>
+<p>However, classical Wasserstein distance contains an interesting limitation:</p>
 
-<p>Align the two distributions through translation before measuring their intrinsic difference, rather than comparing them directly in the original coordinate system.</p>
+<blockquote>
+  <p>Two distributions may have almost exactly the same shape, but if one is translated in space, their Wasserstein distance can still be large.</p>
+</blockquote>
+
+<p>In our recent paper,</p>
+
+<p><strong>“Relative Translation Invariant Wasserstein Distance”</strong></p>
+
+<p>published in the <em>Transactions on Machine Learning Research (TMLR)</em>, we study this problem and introduce a family of distances called the <strong>Relative Translation Invariant Wasserstein distances</strong>, denoted by $RW_p$.</p>
+
+<p>The central idea is simple:</p>
+
+<blockquote>
+  <p>Before measuring how different two distributions are, allow them to align through translation.</p>
+</blockquote>
+
+<p>This allows the distance to focus more directly on the <strong>intrinsic geometric difference between distributions</strong>, rather than their absolute locations.</p>
+
+<hr />
+
+<h2 id="why-translation-matters">Why Translation Matters</h2>
+
+<p>Consider two probability distributions with exactly the same shape:</p>
+
+\[\nu = \mu + t,\]
+
+<p>where $t$ is a translation vector.</p>
+
+<p>Under the classical Wasserstein distance,</p>
+
+\[W_p(\mu,\nu)\]
+
+<p>is generally nonzero because mass must be transported by approximately the translation vector $t$.</p>
+
+<p>But structurally, the two distributions are identical.</p>
+
+<p>For example, imagine two identical point clouds:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Distribution A                     Distribution B
+
+   •                                   •
+ •   •                               •   •
+   •                                   •
+
+        &lt;------ translation ------&gt;
+</code></pre></div></div>
+
+<p>If our goal is to compare their <strong>shape</strong>, the translation should arguably not count as a difference.</p>
+
+<p>This motivates a different question:</p>
+
+<blockquote>
+  <p>What is the minimum Wasserstein distance between two distributions after allowing one distribution to translate?</p>
+</blockquote>
+
+<hr />
 
 <h2 id="relative-translation-optimal-transport">Relative Translation Optimal Transport</h2>
 
-<p>Let $\mu$ and $\nu$ be two probability distributions in $\mathbb{R}^d$. We define the Relative Translation Optimal Transport (ROT) problem as</p>
+<p>Let $\mu$ and $\nu$ be two probability distributions in $\mathbb{R}^d$.</p>
 
-\[\inf_{t\in\mathbb{R}^d}
-\operatorname{OT}(\mu+t,\nu,p).\]
+<p>We define the <strong>Relative Translation Optimal Transport (ROT)</strong> problem as</p>
 
-<p>Equivalently,</p>
+\[\operatorname{ROT}(\mu,\nu,p)
+=
+\inf_{t\in\mathbb{R}^d}
+\operatorname{OT}(\mu+t,\nu,p),\]
 
-\[\inf_{t\in\mathbb{R}^d}
+<p>where $t$ is a translation vector.</p>
+
+<p>Equivalently, in terms of Wasserstein distance,</p>
+
+\[RW_p([\mu],[\nu])
+=
+\inf_{t\in\mathbb{R}^d}
 W_p(\mu+t,\nu).\]
 
-<p>Here, instead of comparing distributions in a fixed coordinate system, $RW_p$ searches for the translation that minimizes the transport cost.</p>
+<p>Instead of comparing the distributions in a fixed coordinate system, we search for the translation that produces the smallest transport cost.</p>
 
-<p>A natural quotient-space interpretation is that: all translations of the same distribution belong to one equivalence class,</p>
+<p>Conceptually, classical Wasserstein distance asks</p>
 
-\[[\mu]={\mu+t\in\mathbb{R}^d},\]
+\[\text{How much does it cost to transform } \mu \text{ into } \nu?\]
 
-<p>and $RW_p$ defines a true metric on</p>
+<p>while $RW_p$ asks</p>
 
-\[\mathcal{P}_p(\mathbb{R}^d)/{\sim_T}.\]
+\[\text{After optimally aligning their locations, how different are their structures?}\]
 
-<p>So $RW_p$ measures the difference between distributions modulo translation.</p>
+<p>This distinction becomes important whenever the absolute position of a distribution is less meaningful than its internal geometry.</p>
 
-<h2 id="the-special-case-p2">The Special Case $p=2$</h2>
+<hr />
 
-<p>The quadratic case has a particularly simple structure:</p>
+<h2 id="a-quotient-space-interpretation">A Quotient-Space Interpretation</h2>
 
-\[W_2^2(\mu,\nu) = 
-||\bar{\mu}-\bar{\nu}||_2^2
+<p>There is also a natural geometric interpretation of this construction.</p>
+
+<p>Suppose we consider all translations of a distribution $\mu$,</p>
+
+\[[\mu]
+=
+\{
+\mu+t : t\in\mathbb{R}^d
+\}.\]
+
+<p>All distributions in this set have the same intrinsic shape and differ only by location.</p>
+
+<p>We can therefore regard them as belonging to the same <strong>equivalence class</strong>.</p>
+
+<p>Instead of defining a distance directly between individual distributions, we define a distance between these equivalence classes:</p>
+
+\[RW_p([\mu],[\nu]).\]
+
+<p>The resulting space is the quotient space</p>
+
+\[\mathcal{P}_p(\mathbb{R}^d)/{\sim_T},\]
+
+<p>where $\sim_T$ represents equivalence under translation.</p>
+
+<p>An important theoretical result of our work is that</p>
+
+\[\boxed{
+RW_p
+\text{ is a true metric on }
+\mathcal{P}_p(\mathbb{R}^d)/{\sim_T}
+}\]
+
+<p>for every</p>
+
+\[p\in[1,\infty).\]
+
+<p>Thus, $RW_p$ is not simply a heuristic alignment procedure. It defines a mathematically valid geometry on probability distributions modulo translation.</p>
+
+<hr />
+
+<h2 id="the-special-geometry-of-rw_2">The Special Geometry of $RW_2$</h2>
+
+<p>The quadratic case,</p>
+
+\[p=2,\]
+
+<p>has a particularly elegant structure.</p>
+
+<p>For two distributions $\mu$ and $\nu$, the squared Wasserstein distance can be decomposed as</p>
+
+\[\boxed{
+W_2^2(\mu,\nu)
+=
+\|\bar{\mu}-\bar{\nu}\|_2^2
 +
-RW_2^2([\mu],[\nu])\]
+RW_2^2([\mu],[\nu])
+}\]
 
-<p>where $\bar{\mu}$ and $\bar{\nu}$ are the means of the two distributions.</p>
+<p>where</p>
 
-<p>This decomposition separates the Wasserstein distance into</p>
+\[\bar{\mu},\qquad \bar{\nu}\]
 
-\[\underbrace{|\bar{\mu}-\bar{\nu}|_2^2}_{\text{translation}}
+<p>are the means of the two distributions.</p>
+
+<p>This equation gives a useful interpretation of the classical Wasserstein distance.</p>
+
+<p>It contains two components:</p>
+
+\[\underbrace{\|\bar{\mu}-\bar{\nu}\|_2^2}_{\text{translation}}
 +
 \underbrace{RW_2^2([\mu],[\nu])}_{\text{intrinsic distributional difference}}.\]
 
-<p>The optimal translation is simply</p>
+<p>In other words,</p>
 
-\[t^\star=\bar{\nu}-\bar{\mu}.\]
+<blockquote>
+  <p>$RW_2$ extracts the centered component of the $W_2$ geometry.</p>
+</blockquote>
 
-<p>For Gaussian distributions, this centered component reduces to the <em>Bures</em> distance between covariance matrices, so $RW_2$ extends this geometric viewpoint beyond Gaussian distributions.</p>
+<p>The optimal translation in the quadratic case has the simple closed form</p>
 
-<h2 id="translation-invariant-optimal-coupling">Translation-Invariant Optimal Coupling</h2>
+\[t^\star
+=
+\bar{\nu}-\bar{\mu}.\]
 
-<p>In the discrete quadratic case, the optimal coupling matrix is invariant under relative translation. 
-Translating the distributions changes the numerical values of the cost matrix, but does not change the optimal transport plan.</p>
+<p>So for $p=2$, relative translation alignment corresponds exactly to aligning the means of the distributions.</p>
 
-<p>As a result, we can first align the means,</p>
+<hr />
 
-\[t^\star=\bar{\nu}-\bar{\mu},\]
+<h2 id="connection-to-the-bures-distance">Connection to the Bures Distance</h2>
 
-<p>and then solve the transport problem using a better-conditioned cost matrix.</p>
+<p>The decomposition becomes especially interesting for Gaussian distributions.</p>
+
+<p>Let</p>
+
+\[\mu=\mathcal{N}(\bar{\mu},\Sigma_\mu),
+\qquad
+\nu=\mathcal{N}(\bar{\nu},\Sigma_\nu).\]
+
+<p>Their squared $2$-Wasserstein distance is</p>
+
+\[W_2^2(\mu,\nu)
+=
+\|\bar{\mu}-\bar{\nu}\|_2^2
++
+\operatorname{Tr}(\Sigma_\mu)
++
+\operatorname{Tr}(\Sigma_\nu)
+-
+2\operatorname{Tr}
+\left[
+\left(
+\Sigma_\mu^{1/2}
+\Sigma_\nu
+\Sigma_\mu^{1/2}
+\right)^{1/2}
+\right].\]
+
+<p>The second component is the squared <strong>Bures distance</strong> between the covariance matrices.</p>
+
+<p>Therefore,</p>
+
+\[RW_2^2(\mu,\nu)
+=
+\operatorname{Tr}(\Sigma_\mu)
++
+\operatorname{Tr}(\Sigma_\nu)
+-
+2\operatorname{Tr}
+\left[
+\left(
+\Sigma_\mu^{1/2}
+\Sigma_\nu
+\Sigma_\mu^{1/2}
+\right)^{1/2}
+\right].\]
+
+<p>This suggests an interesting interpretation:</p>
+
+<blockquote>
+  <p>The Bures distance describes the centered Wasserstein geometry of Gaussian distributions, while $RW_2$ extends this idea to general probability distributions.</p>
+</blockquote>
+
+<p>So $RW_2$ can be viewed as a distribution-level generalization of the centered geometry captured by the Bures metric.</p>
+
+<hr />
+
+<h2 id="something-unexpected-happens-to-the-optimal-coupling">Something Unexpected Happens to the Optimal Coupling</h2>
+
+<p>Another useful result appears in the discrete quadratic case.</p>
+
+<p>Suppose</p>
+
+\[\mu=\sum_i a_i\delta_{x_i},
+\qquad
+\nu=\sum_j b_j\delta_{y_j}.\]
+
+<p>The classical optimal transport problem solves for a coupling matrix $P$.</p>
+
+<p>We show that, when the transport cost is quadratic,</p>
+
+\[\|x_i-y_j\|_2^2,\]
+
+<p>the <strong>optimal coupling matrix is invariant under relative translations</strong>.</p>
+
+<p>That is, translating one of the distributions changes the numerical values of the transport costs, but does not change the optimal transport plan.</p>
+
+<p>This property has an important computational consequence.</p>
+
+<p>We are free to translate the distributions into a numerically better coordinate system before solving the optimal transport problem.</p>
+
+<hr />
+
+<h2 id="improving-numerical-stability">Improving Numerical Stability</h2>
+
+<p>Why does this matter computationally?</p>
+
+<p>Consider the Sinkhorn kernel</p>
+
+\[K_{ij}
+=
+\exp\left(
+-\frac{C_{ij}}{\lambda}
+\right),\]
+
+<p>where</p>
+
+\[C_{ij}
+=
+\|x_i-y_j\|_2^2.\]
+
+<p>If the two distributions are separated by a large translation, the entries of $C$ may become very large.</p>
+
+<p>Then</p>
+
+\[\exp\left(
+-\frac{C_{ij}}{\lambda}
+\right)\]
+
+<p>can become extremely small, potentially causing numerical underflow.</p>
+
+<p>But because the optimal coupling is translation invariant in the quadratic case, we can first align the means:</p>
+
+\[t^\star
+=
+\bar{\nu}-\bar{\mu}.\]
+
+<p>The new cost matrix becomes</p>
+
+\[C'_{ij}
+=
+\|x_i+t^\star-y_j\|_2^2.\]
+
+<p>This often produces much smaller coefficients while preserving the underlying optimal coupling structure.</p>
+
+<p>Based on this observation, we develop two algorithms:</p>
+
+<ul>
+  <li><strong>RW2-LP</strong>, for linear-programming-based optimal transport;</li>
+  <li><strong>RW2-Sinkhorn</strong>, for entropy-regularized optimal transport.</li>
+</ul>
+
+<p>An additional theoretical result is that translation does <strong>not change the Hilbert-metric contraction factor of Sinkhorn iterations</strong>.</p>
+
+<p>Thus, alignment can improve numerical conditioning without sacrificing the geometric convergence rate of the Sinkhorn algorithm.</p>
+
+<hr />
+
+<h2 id="general-rw_p-beyond-the-quadratic-case">General $RW_p$: Beyond the Quadratic Case</h2>
+
+<p>For</p>
+
+\[p\neq2,\]
+
+<p>the problem becomes considerably more interesting.</p>
+
+<p>The optimal translation is no longer necessarily equal to the difference between the means.</p>
+
+<p>We therefore solve</p>
+
+\[\min_{t,P}
+\sum_{i,j}
+P_{ij}
+\|x_i+t-y_j\|^p\]
+
+<p>using an alternating optimization strategy.</p>
+
+<p>The algorithm alternates between:</p>
+
+<ol>
+  <li><strong>Updating the transport plan $P$</strong> while fixing $t$;</li>
+  <li><strong>Updating the translation $t$</strong> while fixing $P$.</li>
+</ol>
+
+<p>For fixed $t$, the problem reduces to a classical optimal transport linear program.</p>
+
+<p>For fixed $P$, optimization over $t$ is convex.</p>
+
+<p>We further use dual-simplex warm starts and Armijo backtracking to make the optimization more efficient and stable.</p>
+
+<p>Although the overall problem can be non-convex when $d\ge2$, each individual update remains computationally tractable.</p>
+
+<hr />
+
+<h2 id="what-does-the-choice-of-p-mean">What Does the Choice of $p$ Mean?</h2>
+
+<p>The parameter $p$ determines how strongly large transport displacements are penalized.</p>
+
+<p>For example,</p>
+
+\[RW_1\]
+
+<p>is relatively tolerant of isolated outliers and local noise.</p>
+
+<p>By contrast,</p>
+
+\[RW_2
+\quad\text{and}\quad
+RW_4\]
+
+<p>place progressively larger penalties on long-distance transport.</p>
+
+<p>One way to interpret this is:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>smaller p
+    ↓
+more tolerant to local noise and outliers
+
+larger p
+    ↓
+greater emphasis on global geometric shape
+</code></pre></div></div>
+
+<p>Thus, different values of $p$ naturally define different notions of distributional similarity.</p>
+
+<hr />
+
+<h2 id="numerical-experiments">Numerical Experiments</h2>
+
+<p>We first evaluate whether the $RW_2$ decomposition improves the numerical stability of classical optimal transport algorithms.</p>
+
+<p>For the LP experiments, we construct distributions under increasingly large translations.</p>
+
+<p>The standard LP formulation accumulates larger numerical errors as translation magnitude increases, particularly in higher dimensions.</p>
+
+<p>In contrast, the <strong>RW2-LP</strong> formulation maintains substantially smaller numerical error while keeping the running time comparable to the standard solver.</p>
+
+<p>We observe a similar phenomenon with Sinkhorn.</p>
+
+<p>As the translation magnitude grows, the standard Sinkhorn formulation becomes increasingly affected by the scale of the cost matrix.</p>
+
+<p>The <strong>RW2-Sinkhorn</strong> formulation substantially reduces these errors by first removing the unnecessary translational component.</p>
+
+<p>These experiments illustrate a useful principle:</p>
+
+<blockquote>
+  <p>Mathematical invariance can sometimes be converted directly into numerical stability.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="classical-w_2-vs-rw_p">Classical $W_2$ vs. $RW_p$</h2>
+
+<p>Classical $W_2$ simultaneously considers</p>
+
+<ul>
+  <li>spatial position, and</li>
+  <li>distributional structure.</li>
+</ul>
+
+<p>Consequently, two structurally similar storms may still have a relatively large $W_2$ distance if they occur at different locations.</p>
+
+<p>The $RW_p$ distance removes this dependence on global translation.</p>
+
+<p>In the retrieval experiments, the proposed distances retrieve storms that more closely match the reference in terms of <strong>shape and orientation</strong>.</p>
+
+<p>The different choices of $p$ also exhibit the expected behavior:</p>
+
+<ul>
+  <li>$RW_1$ is more tolerant of sparse outliers;</li>
+  <li>$RW_2$ provides a balance between local robustness and global geometry;</li>
+  <li>$RW_4$ places greater emphasis on larger structural deviations.</li>
+</ul>
+
+<p>We also evaluate thunderstorm <strong>sequences</strong>, where each example consists of six consecutive radar snapshots spanning one hour.</p>
+
+<p>The results suggest that relative Wasserstein distances can capture not only static storm morphology but also similarities in the temporal evolution of storm structures.</p>
+
+<hr />
+
+<h2 id="a-broader-geometric-view">A Broader Geometric View</h2>
+
+<p>The framework suggests a more general perspective.</p>
+
+<p>Sometimes we do not want to compare objects directly.</p>
+
+<p>Instead, we want to compare them <strong>up to a transformation</strong>.</p>
+
+<p>For translation, we consider</p>
+
+\[\mathcal{P}_p(\mathbb{R}^d)/{\sim_T}.\]
+
+<p>But similar ideas can be considered for other transformations, such as rotation.</p>
+
+<p>More generally, one can imagine distributional geometries that factor out transformations that are irrelevant to a particular application:</p>
+
+\[\text{distribution}
+\quad\longrightarrow\quad
+\text{equivalence class under transformations}.\]
+
+<p>This perspective connects optimal transport with quotient spaces, invariant representations, geometric learning, and shape comparison.</p>
+
+<hr />
 
 <h2 id="takeaway">Takeaway</h2>
 
-<p>The main idea behind $RW_p$ can be summarized as:</p>
+<p>The main idea behind Relative Translation Invariant Wasserstein distance can be summarized in one sentence:</p>
 
-<p>Separate where a distribution is from what the distribution looks like.</p>
+<blockquote>
+  <p>Separate <strong>where a distribution is</strong> from <strong>what the distribution looks like</strong>.</p>
+</blockquote>
 
-<p>For $p=2$,</p>
+<p>Starting from classical optimal transport, $RW_p$ compares probability distributions after optimally accounting for relative translation.</p>
 
-\[||\bar{\mu}-\bar{\nu}||_2^2
+<p>For $p=2$, this leads to the decomposition</p>
+
+\[\boxed{
+W_2^2(\mu,\nu)
+=
+\|\bar{\mu}-\bar{\nu}\|_2^2
 +
-RW_2^2([\mu],[\nu])\]
+RW_2^2([\mu],[\nu])
+}\]
 
-<p>cleanly separates translation from intrinsic distributional geometry.</p>
+<p>which cleanly separates translation from intrinsic distributional geometry.</p>
+
+<p>Beyond its theoretical interpretation, this decomposition can also improve the numerical stability of LP and Sinkhorn optimal transport solvers.</p>
+
+<p>There are many interesting directions that follow from this idea: rotation invariance, more general transformation groups, invariant distribution embeddings, and applications to high-dimensional machine learning.</p>
+
+<hr />
 
 <h2 id="paper-and-code">Paper and Code</h2>
 
-<p>Paper:
-Relative Translation Invariant Wasserstein Distance
-Binshuai Wang, Qiwei Di, Ming Yin, Mengdi Wang, Quanquan Gu, and Peng Wei.
-Transactions on Machine Learning Research (TMLR), 2026.</p>
+<p><strong>Paper:</strong><br />
+<em>Relative Translation Invariant Wasserstein Distance</em><br />
+Binshuai Wang, Qiwei Di, Ming Yin, Mengdi Wang, Quanquan Gu, and Peng Wei.<br />
+<em>Transactions on Machine Learning Research (TMLR), 2026.</em></p>
 
-<p>Code:
-https://github.com/DRKWang/rw_metric</p>
+<p><strong>Code:</strong><br />
+<a href="https://github.com/DRKWang/rw_metric">https://github.com/DRKWang/rw_metric</a></p>
 
-      <script src="https://giscus.app/client.js"
-        data-repo="DRKWang/drkwang.github.io"
-        data-repo-id="R_kgDOSZ4bFw"
-        data-category="General"
-        data-category-id="DIC_kwDOSZ4bF84DFOds"
-        data-mapping="pathname"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-    </script>
+<hr />
+
+<p><em>If you are interested in optimal transport, Wasserstein geometry, or distributional metrics, I plan to write more posts explaining the geometric ideas behind these methods.</em></p>
+
     </main>
 
   </div>
 
 
   <footer class="footer">
-    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio.</p>
+    <p>&copy; 2026 Binshuai Wang. All rights reserved. Inspired by al-folio. Assisted by GPT and Claude.</p>
   </footer>
 
   <script>
