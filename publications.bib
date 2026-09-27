@@ -1,13 +1,20 @@
-@article{wang2026reusable,
+@article{Wang2026lrnb_arch,
   bibtex_show={true},
-  title = {A Mathematical Theory of Reusable Neural Bases for Network Compression},
-  author = {Wang, Binshuai and Wei, Peng},
+  title = {Linear Reusable Neural Bases Architecture for Network Compression},
+  author = {Wang, Binshuai and Wei, Peng and Ghazanfari, Mahyar},
   journal = {arXiv preprint arXiv:2609.01550},
   year    = {2026},
   url     = {https://arxiv.org/abs/2609.01550},
-  pdf={wang2026reusable.pdf},
+  pdf={wang2026lrnb_arch.pdf},
   selected={true},
-  abstract={As large AI models become increasingly prevalent across a wide range of applications, memory cost has become a critical bottleneck in both training and inference. To mitigate this issue, we introduce the Linear Reusable Neural Bases Architecture (LRNBA), a novel framework aimed at improving parameter efficiency and reducing memory cost. Inspired by recurrent neural network (RNN) designs, we introduce the notion of neural basis, and the core idea of our approach is to represent each network block as a linear combination of a shared set of such neural bases, thereby enjoying highly network compression rate while maintaining stable training. By defining virtual ``neurons'' through the reuse of these bases, the proposed architecture enables the construction of substantially wider and deeper networks under the same parameter budget. Extensive experiments demonstrate that our model achieves comparable or even faster convergence and lower loss than classical architectures, while maintaining stable training dynamics.}
+  abstract={Memory constraints remain a critical bottleneck in the deployment of large-scale AI models.
+Parameter sharing across network depth reduces model storage, but repeatedly applying an identical transformation limits flexibility across layers.
+Inspired by time--memory trade-offs in classical algorithms, we introduce the Linear Reusable Neural Bases (LRNB) architecture, an RNN-based framework that improves parameter efficiency through parameter reuse at the \textit{neuron level}.
+Each feedforward residual module is represented as a linear combination of shared neural bases, with depth-specific learnable coefficients and optional shifts providing flexibility across layers.
+This formulation reduces parameter redundancy across depth and enables the construction of wider and deeper networks within a fixed parameter budget.
+We further provide a geometric interpretation of the neural bases from a vector-field perspective and extend the framework to linear projection modules.
+Experiments demonstrate that the LRNB architecture achieves comparable or lower final training loss than independently parameterized baselines while using fewer parameters and maintaining stable training dynamics.
+These findings support neuron-level reuse as a practical approach to parameter-efficient network design.}
 }
 
 @inproceedings{ghazanfari2026paragraph,
