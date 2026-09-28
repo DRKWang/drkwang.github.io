@@ -58,12 +58,9 @@ title: Home
 
 <section id="contact">
   <h2>Contact</h2>
-  <p> By Email only: 
+  <p> By Email: 
         <a href="mailto:derekwang@gwu.com">binshuaiw@gmail.com</a></p>
+  <!--<p>GitHub: <a href="https://github.com/drkwang">DRKWang</a></p> -->
+<p>By LinkedIn: <a href="https://www.linkedin.com/in/binshuai-wang-0855151a3/">Binshuai Wang</a></p>
 </section>
-
-[comment]: <> (  <p>GitHub: <a href="https://github.com/drkwang">DRKWang</a></p>)
-
-[comment]: <> (  <p>LinkedIn: <a href="https://www.linkedin.com/in/binshuai-wang-0855151a3/">Binshuai Wang</a></p>)
-
-[comment]: <> (      
+ 
