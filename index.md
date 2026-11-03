@@ -10,8 +10,8 @@ title: Home
     I am a Ph.D. candidate in Computer Science at
       The George Washington University.
       I obtained an M.S. in Computer Science from UC Davis and
-      a B.S. in Mathematics from the Hua Loo-Keng Honors Class at Beihang University.
-    
+      a B.S. in Mathematics from the Hua Loo-Keng Honors Class at Beihang University. <br>
+
 My research focuses on Deep Learning, Neural Network Architectures, Transformers, Generative Models (Diffusion and Flow Matching), Reinforcement Learning, Optimal Transport, and Mathematical Optimization.
     </p>
       <!-- <p>
