@@ -11,9 +11,8 @@ title: Home
       The George Washington University.
       I obtained an M.S. in Computer Science from UC Davis and
       a B.S. in Mathematics from the Hua Loo-Keng Honors Class at Beihang University.
-      My research focuses on optimal transport theory,
-      parameter-efficient neural networks, and machine learning
-      models, including Vision Transformers and diffusion models.
+    
+My research focuses on Deep Learning, Neural Network Architectures, Transformers, Generative Models (Diffusion and Flow Matching), Reinforcement Learning, Optimal Transport, and Mathematical Optimization.
     </p>
       <!-- <p>
     My research lies at the intersection of mathematics, optimization, and computer science, with a focus on the optimal transport, parameter-efficient neural networks, and machine learning models.)
